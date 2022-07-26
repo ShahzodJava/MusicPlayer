@@ -6,7 +6,7 @@ import android.os.Bundle
 class PlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.Theme_MusicPlayer)
+        setTheme(R.style.coolPink)
         setContentView(R.layout.activity_player)
     }
 }

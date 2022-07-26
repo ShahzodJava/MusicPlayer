@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Shahzod/AndroidProjects/MusicPlayer/app/src/main/res/layout/activity_favourite.xml" value="0.1" />
+        <entry key="..\:/Shahzod/AndroidProjects/MusicPlayer/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Shahzod/AndroidProjects/MusicPlayer/app/src/main/res/layout/activity_player.xml" value="0.1" />
+        <entry key="..\:/Shahzod/AndroidProjects/MusicPlayer/app/src/main/res/layout/activity_playlist.xml" value="0.14666666666666667" />
+        <entry key="..\:/Shahzod/AndroidProjects/MusicPlayer/app/src/main/res/layout/music_view.xml" value="0.1" />
+        <entry key="..\:/Shahzod/AndroidProjects/MusicPlayer/app/src/main/res/layout/nav_header.xml" value="0.22" />
+        <entry key="..\:/Shahzod/AndroidProjects/MusicPlayer/app/src/main/res/menu/nav_menu.xml" value="0.1" />
         <entry key="..\:/Shahzod/AndroidProjects/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.13" />
         <entry key="..\:/Shahzod/AndroidProjects/app/src/main/res/drawable/back_icon.xml" value="0.1" />
         <entry key="..\:/Shahzod/AndroidProjects/app/src/main/res/drawable/favorite_icon.xml" value="0.161" />
