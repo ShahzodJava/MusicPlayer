@@ -15,6 +15,7 @@
         android:roundIcon="@mipmap/ic_music_player_round"
         android:supportsRtl="true"
         android:theme="@style/splash_screen"
+        android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
         <activity
             android:name=".PlaylistActivity"

@@ -1,30 +1,32 @@
 package com.example.musicplayer
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.MenuItem
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.File
 
 class MainActivity : AppCompatActivity(), View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private lateinit var toggle: ActionBarDrawerToggle
-
+    private lateinit var musicAdapter: MusicAdapter
+    companion object {
+        lateinit var MusicListMA: ArrayList<Music>
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestRuntimePermission()
-        setTheme(R.style.coolPinkNav)
-        setContentView(R.layout.activity_main)
-//      for navigation drawer
-        toggle = ActionBarDrawerToggle(this,mainDrawLayout,R.string.open,R.string.close)
-        mainDrawLayout.addDrawerListener(toggle)
-        toggle.syncState()
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        initializeLayout()
 
         shuffle_btn.setOnClickListener(this)
         favourite_btn.setOnClickListener(this)
@@ -102,5 +104,67 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NavigationView.O
             }
         }
         return true
+    }
+
+    private fun initializeLayout(){
+        requestRuntimePermission()
+        setTheme(R.style.coolPinkNav)
+        setContentView(R.layout.activity_main)
+//      for navigation drawer
+        toggle = ActionBarDrawerToggle(this,mainDrawLayout,R.string.open,R.string.close)
+        mainDrawLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        MusicListMA = getAllAudio()
+
+        musicRV.setHasFixedSize(true)
+        musicRV.setItemViewCacheSize(13)
+        musicRV.layoutManager = LinearLayoutManager(this)
+        musicAdapter = MusicAdapter(this, MusicListMA)
+        musicRV.adapter = musicAdapter
+
+        totalSongs.text = "Total songs: " + musicAdapter.itemCount
+
+    }
+
+    @SuppressLint("Range")
+    private fun getAllAudio(): ArrayList<Music> {
+        val tempList = ArrayList<Music>()
+        val selection = MediaStore.Audio.Media.IS_MUSIC + "!= 0"
+        val projection = arrayOf(MediaStore.Audio.Media._ID,
+            MediaStore.Audio.Media.TITLE,
+            MediaStore.Audio.Media.ALBUM,
+            MediaStore.Audio.Media.ARTIST,
+            MediaStore.Audio.Media.DURATION,
+            MediaStore.Audio.Media.DATE_ADDED,
+            MediaStore.Audio.Media.DATA,
+            MediaStore.Audio.Media.ALBUM_ID)
+        val cursor = this.contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+            projection, selection, null,
+        MediaStore.Audio.Media.DATE_ADDED + " DESC",  null)
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    val titleC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE))
+                    val idC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media._ID))
+                    val albumC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM))
+                    val artistC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))
+                    val pathC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA))
+                    val durationC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION))
+                    val albumIdC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)).toString()
+                    val uri = Uri.parse("content://media/external/audio/albumart")
+                    val artUri = Uri.withAppendedPath(uri, albumIdC).toString()
+                    val music = Music(id = idC, title = titleC, album = albumC, artist = artistC, path = pathC, duration = durationC, artUri = artUri)
+
+                    val file = File(music.path)
+                    if (file.exists()) {
+                        tempList.add(music)
+                    }
+                } while (cursor.moveToNext())
+                cursor.close()
+            }
+        }
+        return tempList
     }
 }
