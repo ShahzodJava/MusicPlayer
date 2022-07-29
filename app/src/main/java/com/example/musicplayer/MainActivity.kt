@@ -61,7 +61,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NavigationView.O
     override fun onClick(view: View?) {
         when (view!!.id) {
             R.id.shuffle_btn->{
-                startActivity(Intent(this@MainActivity, PlayerActivity::class.java))
+                val intent = Intent(this@MainActivity, PlayerActivity::class.java)
+                intent.putExtra("index",0)
+                intent.putExtra("class", "MainActivity")
+                startActivity(intent)
             }
             R.id.favourite_btn->{
                 startActivity(Intent(this@MainActivity, FavouriteActivity::class.java))

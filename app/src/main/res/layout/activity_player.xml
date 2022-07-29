@@ -47,6 +47,7 @@
 
     <!--Current song image-->
     <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/songImgPA"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_margin="10dp"
@@ -54,6 +55,7 @@
 
     <!--Current song name-->
     <TextView
+        android:id="@+id/songNamePA"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -157,28 +159,30 @@
         android:orientation="horizontal"
         android:layout_weight="1">
 
-        <ImageButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/previousBtnPA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:src="@drawable/previous_icon"
-            app:tint="@color/iconsColor"/>
+            app:icon="@drawable/previous_icon"
+            app:iconSize="40dp"
+            />
 
-        <ImageButton
+
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/playPauseBtnPA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="25dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/play_icon"
-            app:tint="@color/iconsColor"/>
+            app:icon="@drawable/pause_icon"
+            app:iconSize="40dp"/>
 
-        <ImageButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/nextBtnPA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:src="@drawable/next_icon"
-            app:tint="@color/iconsColor"
-
+            app:icon="@drawable/next_icon"
+            app:iconSize="40dp"
             />
     </LinearLayout>
 
