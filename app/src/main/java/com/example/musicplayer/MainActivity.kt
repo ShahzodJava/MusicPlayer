@@ -26,7 +26,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NavigationView.O
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initializeLayout()
+
+        setTheme(R.style.coolPinkNav)
+        setContentView(R.layout.activity_main)
+//      for navigation drawer
+        toggle = ActionBarDrawerToggle(this,mainDrawLayout,R.string.open,R.string.close)
+        mainDrawLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        if (requestRuntimePermission()) {
+            initializeLayout()
+        }
 
         shuffle_btn.setOnClickListener(this)
         favourite_btn.setOnClickListener(this)
@@ -35,11 +45,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NavigationView.O
     }
 
 //    For requesting permission
-    private fun requestRuntimePermission(){
+    private fun requestRuntimePermission():Boolean{
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),13)
+            return false
         }
+        return true
     }
 
     override fun onRequestPermissionsResult(
@@ -51,6 +63,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NavigationView.O
         if (requestCode == 13) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
+                initializeLayout()
             }
             else {
                 ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),13)
@@ -110,14 +123,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, NavigationView.O
     }
 
     private fun initializeLayout(){
-        requestRuntimePermission()
-        setTheme(R.style.coolPinkNav)
-        setContentView(R.layout.activity_main)
-//      for navigation drawer
-        toggle = ActionBarDrawerToggle(this,mainDrawLayout,R.string.open,R.string.close)
-        mainDrawLayout.addDrawerListener(toggle)
-        toggle.syncState()
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         MusicListMA = getAllAudio()
 
